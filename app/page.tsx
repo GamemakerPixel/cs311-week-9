@@ -10,7 +10,6 @@ function VideoList() {
   useEffect(() => {
     async function waitForVideos() {
       const videos = await getVideos()
-      console.log(videos)
 
       if (videos) {
         setVideos(videos)
