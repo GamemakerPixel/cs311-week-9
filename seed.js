@@ -4,6 +4,7 @@ const prisma = new PrismaClient()
 
 
 const seed = async () => {
+  await prisma.Video.deleteMany({})
   const createMany = await prisma.Video.createMany({
   data: [
             { name: 'Cat video', url: '/videos/test.mp4', votes: 10, length: 100 },

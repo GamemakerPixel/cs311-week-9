@@ -19,3 +19,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  @apply text-3xl text-center my-4
+}
+
+.panel {
+  @apply bg-secondary
+}

@@ -1,11 +1,13 @@
 "use client"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
-import { getVideos, Video } from "@/app/videos"
+import { getVideos, removeVideo, Video } from "@/app/video_server"
 
 
 function VideoList() {
   const [videos, setVideos] = useState<Video[]>([])
+  const [renderedVideos, setRenderedVideos] = useState<Video[]>([])
 
   useEffect(() => {
     async function waitForVideos() {
@@ -20,24 +22,38 @@ function VideoList() {
   []
   )
 
-  const videoElementClass = "mx-2"
+  function hideVideo(id: number) {
+    setVideos(videos.filter((video) => video.id != id))
+  }
 
   if (!videos) {
     return (
       <div>
-        <p className={videoElementClass}>
+        <p>
           Videos loading, please wait...
         </p>
       </div>
     )
   }
 
+  const videoEditUrl = "/videos/edit/"
+
   return (
-    <div>
+    <div className="mx-4">
       <ul>
         {videos.map((video: Video) => (
-          <li key={video.id} className={videoElementClass}>
-            {video.name}
+          <li key={video.id} className="mx-2 flex border-b border-secondary">
+            <Link href={videoEditUrl + video.id} className="flex-grow">
+              {video.name}
+            </Link>
+            <button onClick={
+              async () => {
+                hideVideo(video.id)
+                await removeVideo(video.id)
+              }
+            }>
+              Remove
+            </button>
           </li>
         ))}
       </ul>
